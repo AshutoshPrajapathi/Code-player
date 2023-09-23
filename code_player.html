@@ -1,0 +1,145 @@
+<html>
+    <head>
+        <title>Code Player</title>
+        <script src="jquery-3.6.1.min.js"></script>
+        <link rel="stylesheet" href="jquery-ui/jquery-ui.css">
+        <script src="jquery-ui/jquery-ui.js"></script>
+    </head>
+    <style>
+        body{
+            font-family:sans-serif;
+            padding: 0%;
+            margin: 0%;
+        }
+        #header{
+            width:100%;
+            height: 29px;
+            background-color:#EEEEEE;
+            padding: 8px;
+
+        }
+        #logo{
+            float: left;
+            font-weight: bold;
+            padding: 3px 5px;
+            font-size: 18px;
+        }
+        #buttonContainer{
+            width: 300px;
+            margin: 0 auto;
+            
+            
+        }
+        .toggleButton{
+            font-size:80%;
+            float: left;
+            border: 1px solid gray;
+            padding: 8px;
+            border-right: none;
+            
+            
+        }
+        #html{
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+        }
+        #output{
+            border-right: 1px solid gray;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+        .active{
+            background-color: #E8F2FF;
+        }
+        .highlitedButton{
+            background-color: #e2e2e2;
+        }
+        #htmlpannel{
+            
+            resize: none;
+            border-top: none;
+            border-bottom: none;
+            border-color:#8C8C8C;
+            
+            
+        }
+        .pannel{
+            float: left;
+            width: 50%;
+            border-left: none;
+            resize: none;
+            border-top: none;
+            border-bottom: none;
+            
+        }
+        #outputpannel{
+            border: none;
+        }
+        .hide{
+            display: none;
+        }
+    </style>
+
+
+
+    <body>
+        <div id="header">
+            <div id="logo">
+                Code Player</div>
+            <div id="buttonContainer">
+                <div class="toggleButton active" id="html">HTML </div>
+                <div class="toggleButton" id="css">CSS</div>
+                <div class="toggleButton" id="javascript">Javascript </div>
+                <div class="toggleButton" id="console">Console </div>
+                <div class="toggleButton active" id="output">Output </div>
+            </div>
+         </div>
+
+         <div id="bodyContainer">
+            <textarea id="htmlpannel" class="pannel"><p id="para">helloworld</p></textarea>
+            <textarea id="csspannel" class="pannel hide">p{color:green}</textarea>
+            <textarea id="javascriptpannel" class="pannel hide">document.getElementById("para").innerHTML="Hey Ashu";</textarea>
+            <iframe class="pannel " id="outputpannel"></iframe>
+            
+
+         </div>
+
+    </body>
+    <script>
+
+        function updateOutPut(){
+            $("iframe").contents().find("html").html("<html><head><style type='text/css'>"+$("#csspannel").val()+"</style></head><body>"+$("#htmlpannel").val()+"</body></html>");
+            document.getElementById("outputpannel").contentWindow.eval($("#javascriptpannel").val());
+
+        }
+        $(".toggleButton").hover(function(){
+            $(this).addClass("highlitedButton")
+        },function(){
+            $(this).removeClass("highlitedButton");
+        });
+        $(".toggleButton").click(function(){
+            $(this).toggleClass("active");
+            $(this).removeClass("highlitedButton");
+            var pannelid=$(this).attr("id")+"pannel";
+            $("#"+pannelid).toggle();
+            var active=4-$(".hidden").length;
+            $(".pannel").width(($(window).width()/active)-10);
+
+        });
+
+        $(".pannel").height($(window).height()-$("#header").height()-14);
+        $(".pannel").width(($(window).width()/2)-10);
+
+       // $("iframe").contents().find("html").html($("#htmlpannel").val())
+       updateOutPut();
+
+        $("textarea").on("change keyup paste",function(){
+            //$("iframe").contents().find("html").html($("#htmlpannel").val())
+            //$("iframe").contents().find("html").html("<html><head><style type='text/css'>"+$("#csspannel").val()+"</style></head><body>"+$("#htmlpannel").val()+"</body></html>");
+            updateOutPut();
+
+        })
+
+
+    </script>
+</html>
